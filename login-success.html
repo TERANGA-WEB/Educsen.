@@ -89,7 +89,7 @@ async function completeSignIn() {
             const user = result.user;
 
             // 🔹 Sauvegarder les infos importantes dans localStorage
-            localStorage.setItem("userId", user.uid);
+    localStorage.setItem("userUid", user.uid);
             localStorage.setItem("userEmail", user.email);
 
             // Supprimer l'email temporaire
@@ -114,3 +114,4 @@ completeSignIn();
 
 </body>
 </html>
+
