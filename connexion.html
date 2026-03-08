@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Connexion · ÉducSen</title>
-    <!-- Police moderne -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== DESIGN MODERNE, CENTRÉ, RESPONSIVE ===== */
+        /* (style identique à votre version, conservez-le) */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
         }
-
         body {
             background: linear-gradient(145deg, #f6f9fc 0%, #edf2f7 100%);
             min-height: 100vh;
@@ -23,12 +21,10 @@
             justify-content: center;
             padding: 1.5rem;
         }
-
         .container {
             max-width: 480px;
             width: 100%;
         }
-
         .card {
             background: white;
             border-radius: 32px;
@@ -36,7 +32,6 @@
             box-shadow: 0 20px 35px -8px rgba(0, 20, 30, 0.15);
             border: 1px solid rgba(255,255,255,0.3);
         }
-
         h1 {
             font-size: 1.9rem;
             font-weight: 700;
@@ -44,7 +39,6 @@
             color: #0a2e4a;
             margin-bottom: 0.5rem;
         }
-
         .subhead {
             font-size: 0.95rem;
             color: #4a6877;
@@ -53,11 +47,9 @@
             border-bottom: 1px solid #e2e8f0;
             padding-bottom: 1rem;
         }
-
         .form-group {
             margin-bottom: 1.8rem;
         }
-
         label {
             display: block;
             font-weight: 600;
@@ -67,7 +59,6 @@
             color: #1e4c6b;
             margin-bottom: 0.6rem;
         }
-
         input[type="email"] {
             width: 100%;
             padding: 1rem 1.2rem;
@@ -78,17 +69,14 @@
             outline: none;
             background: white;
         }
-
         input[type="email"]:focus {
             border-color: #2563eb;
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
-
         input.error {
             border-color: #e53e3e;
             background-color: #fff5f5;
         }
-
         .btn {
             display: inline-flex;
             align-items: center;
@@ -107,20 +95,17 @@
             margin-top: 0.5rem;
             gap: 0.6rem;
         }
-
         .btn:hover:not(:disabled) {
             transform: scale(1.02);
             background: linear-gradient(135deg, #1f5579, #0e3b4a);
             box-shadow: 0 12px 24px rgba(17, 57, 70, 0.3);
         }
-
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             background: #94a3b8;
             box-shadow: none;
         }
-
         .spinner {
             display: inline-block;
             width: 1.2rem;
@@ -130,11 +115,9 @@
             border-top-color: white;
             animation: spin 0.8s linear infinite;
         }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
         .message-box {
             margin-top: 1.8rem;
             padding: 1rem 1.2rem;
@@ -143,21 +126,18 @@
             font-weight: 500;
             display: none;
         }
-
         .message-box.success {
             display: block;
             background: #e6f7e6;
             color: #1e7a44;
             border-left: 4px solid #2ecc71;
         }
-
         .message-box.error {
             display: block;
             background: #fff5f5;
             color: #c53030;
             border-left: 4px solid #c53030;
         }
-
         .info-text {
             margin-top: 1.8rem;
             font-size: 0.8rem;
@@ -167,11 +147,9 @@
             padding: 0.8rem;
             border-radius: 14px;
         }
-
         .hidden {
             display: none;
         }
-
         @media (max-width: 400px) {
             .card { padding: 1.8rem 1.2rem; }
             h1 { font-size: 1.6rem; }
@@ -184,22 +162,18 @@
             <h1>🔐 Connexion · ÉducSen</h1>
             <div class="subhead">Entrez votre email pour recevoir un lien de connexion sécurisé</div>
 
-            <!-- Formulaire email -->
             <form id="loginForm">
                 <div class="form-group">
                     <label for="emailInput">Adresse email</label>
                     <input type="email" id="emailInput" placeholder="exemple@domaine.fr" required autocomplete="email">
                 </div>
-
                 <button type="submit" id="submitBtn" class="btn">
                     <span id="btnText">Envoyer le lien</span>
                     <span id="btnSpinner" class="spinner hidden"></span>
                 </button>
             </form>
 
-            <!-- Zone d'affichage des messages (succès / erreur) -->
             <div id="messageBox" class="message-box"></div>
-
             <div class="info-text">
                 📧 Un email contenant un lien de connexion vous sera envoyé.
             </div>
@@ -207,11 +181,9 @@
     </div>
 
     <script type="module">
-        // ---------- FIREBASE v9 MODULAR (CDN) ----------
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
         import { getAuth, sendSignInLinkToEmail } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-        // ---------- CONFIGURATION FOURNIE ----------
         const firebaseConfig = {
             apiKey: "AIzaSyD7B-0O9mOdbIDQV-g6hsZx07G2ZvzKoxo",
             authDomain: "real-educsen.firebaseapp.com",
@@ -221,11 +193,10 @@
             appId: "1:80660233362:web:5edf5060254170056eba4b"
         };
 
-        // Initialisation Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // ---------- ÉLÉMENTS DOM ----------
+        // DOM elements
         const loginForm = document.getElementById('loginForm');
         const emailInput = document.getElementById('emailInput');
         const submitBtn = document.getElementById('submitBtn');
@@ -233,84 +204,23 @@
         const btnSpinner = document.getElementById('btnSpinner');
         const messageBox = document.getElementById('messageBox');
 
-        // ---------- CONFIGURATION DU LIEN MAGIQUE ----------
-        // L'URL doit pointer vers connexion-success.html (même origine)
+        // Configuration du lien magique
         const getActionCodeSettings = () => {
-            // Construction dynamique de l'URL de redirection après clic sur le lien
-            const url = new URL(window.location.href);
-            // Remplacer le nom du fichier actuel par connexion-success.html
-            // Si on est sur localhost ou en production, ça fonctionne
-            let redirectUrl;
-            if (url.pathname.endsWith('connexion.html')) {
-                redirectUrl = url.href.replace('connexion.html', 'connexion-success.html');
-            } else {
-                // Fallback : on ajoute /connexion-success.html à l'origine
-                redirectUrl = `${url.origin}/connexion-success.html`;
-            }
-
+            // Utiliser l'origine pour construire l'URL absolue vers connexion-success.html
+            // Cela fonctionne même si la page est servie depuis un sous-dossier
+            const redirectUrl = `${window.location.origin}/connexion-success.html`;
+            console.log('URL de redirection configurée :', redirectUrl);
             return {
                 url: redirectUrl,
                 handleCodeInApp: true
             };
         };
 
-        // ---------- GESTIONNAIRE D'ENVOI DU LIEN ----------
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Validation email simple
+        const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-            const email = emailInput.value.trim();
-
-            // Validation simple
-            if (!email || !isValidEmail(email)) {
-                showMessage('Veuillez entrer une adresse email valide.', 'error');
-                emailInput.classList.add('error');
-                return;
-            }
-
-            emailInput.classList.remove('error');
-            
-            // Activer le loader
-            setLoadingState(true);
-            hideMessage();
-
-            try {
-                const actionCodeSettings = getActionCodeSettings();
-                
-                await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-                
-                // Stocker l'email pour la page de confirmation
-                localStorage.setItem('emailForSignIn', email);
-                
-                // Afficher message de succès
-                showMessage('✅ Lien envoyé ! Vérifiez votre boîte email.', 'success');
-                
-                // Désactiver le bouton pour éviter les envois multiples
-                submitBtn.disabled = true;
-                emailInput.disabled = true; // Optionnel : verrouiller l'input
-                
-            } catch (error) {
-                console.error('Erreur sendSignInLinkToEmail :', error);
-                
-                let errorMessage = 'Erreur lors de l\'envoi du lien.';
-                if (error.code === 'auth/too-many-requests') {
-                    errorMessage = 'Trop de demandes. Veuillez réessayer plus tard.';
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'Email invalide.';
-                } else if (error.code === 'auth/unauthorized-continue-uri') {
-                    errorMessage = 'Domaine non autorisé. Vérifiez Firebase Console.';
-                }
-                
-                showMessage(`❌ ${errorMessage}`, 'error');
-                setLoadingState(false);
-            }
-        });
-
-        // ---------- FONCTIONS UTILITAIRES ----------
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        function setLoadingState(isLoading) {
+        // Gestion des états
+        const setLoadingState = (isLoading) => {
             if (isLoading) {
                 btnText.textContent = 'Envoi en cours';
                 btnSpinner.classList.remove('hidden');
@@ -321,22 +231,60 @@
                 submitBtn.disabled = false;
                 emailInput.disabled = false;
             }
-        }
+        };
 
-        function showMessage(text, type) {
+        const showMessage = (text, type) => {
             messageBox.textContent = text;
-            messageBox.className = 'message-box'; // Reset
+            messageBox.className = 'message-box';
             messageBox.classList.add(type);
-        }
+        };
 
-        function hideMessage() {
+        const hideMessage = () => {
             messageBox.textContent = '';
             messageBox.className = 'message-box';
-        }
+        };
 
-        // Supprimer la classe error quand l'utilisateur tape
-        emailInput.addEventListener('input', () => {
+        // Soumission du formulaire
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            if (!email || !isValidEmail(email)) {
+                showMessage('Veuillez entrer une adresse email valide.', 'error');
+                emailInput.classList.add('error');
+                return;
+            }
+
             emailInput.classList.remove('error');
+            setLoadingState(true);
+            hideMessage();
+
+            try {
+                const actionCodeSettings = getActionCodeSettings();
+                await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+                
+                // Stocker l'email pour la page de confirmation
+                localStorage.setItem('emailForSignIn', email);
+                console.log('Email stocké pour confirmation :', email);
+
+                showMessage('✅ Lien envoyé ! Vérifiez votre boîte email.', 'success');
+                
+                // Verrouiller le formulaire après envoi réussi
+                submitBtn.disabled = true;
+                emailInput.disabled = true;
+            } catch (error) {
+                console.error('Erreur sendSignInLinkToEmail :', error);
+                let errorMessage = 'Erreur lors de l\'envoi du lien.';
+                if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Trop de demandes. Veuillez réessayer plus tard.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Email invalide.';
+                } else if (error.code === 'auth/unauthorized-continue-uri') {
+                    errorMessage = 'Domaine non autorisé. Vérifiez Firebase Console.';
+                }
+                showMessage(`❌ ${errorMessage}`, 'error');
+                setLoadingState(false);
+            }
         });
 
         // Réactiver le formulaire si l'utilisateur modifie l'email après succès
@@ -345,6 +293,11 @@
                 setLoadingState(false);
                 emailInput.disabled = false;
             }
+        });
+
+        // Supprimer la classe error au fur et à mesure
+        emailInput.addEventListener('input', () => {
+            emailInput.classList.remove('error');
         });
     </script>
 </body>
