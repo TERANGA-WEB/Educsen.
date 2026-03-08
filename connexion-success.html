@@ -135,7 +135,7 @@
                     // Succès : effacer l'email stocké
                     localStorage.removeItem('emailForSignIn');
                     // Rediriger vers codesecretuser.html
-                    window.location.href = '/codesecretuser.html';
+                    window.location.href = 'codesecretuser.html';
                 })
                 .catch((error) => {
                     console.error('Erreur de connexion :', error);
@@ -145,7 +145,11 @@
                     }
                     showMessage(message, 'error');
                 });
+            console.log('🔍 URL actuelle :', window.location.href);
+console.log('🔍 Lien valide ?', isSignInWithEmailLink(auth, window.location.href));
+console.log('🔍 Email localStorage :', localStorage.getItem('emailForSignIn'));
         }
     </script>
 </body>
 </html>
+
