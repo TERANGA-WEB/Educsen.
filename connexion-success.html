@@ -85,7 +85,7 @@
                 <p>Vérification du lien, veuillez patienter...</p>
             </div>
             <div id="messageBox" class="message hidden"></div>
-            <a href="/connexion.html" id="retryBtn" class="btn hidden">Retour à la connexion</a>
+            <a href="connexion.html" id="retryBtn" class="btn hidden">Retour à la connexion</a>
         </div>
     </div>
 
@@ -105,12 +105,12 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Éléments DOM
+        // DOM elements
         const statusDiv = document.getElementById('status');
         const messageBox = document.getElementById('messageBox');
         const retryBtn = document.getElementById('retryBtn');
 
-        // Fonction d'affichage des messages
+        // Helper d'affichage
         function showMessage(text, type) {
             statusDiv.classList.add('hidden');
             messageBox.textContent = text;
@@ -119,35 +119,46 @@
             if (type === 'error') retryBtn.classList.remove('hidden');
         }
 
-        // Récupérer l'email stocké
-        let email = localStorage.getItem('emailForSignIn');
+        // ---------- DÉBOGAGE : logs utiles ----------
+        console.log('📍 URL actuelle :', window.location.href);
+        const isValidLink = isSignInWithEmailLink(auth, window.location.href);
+        console.log('🔗 Lien valide (isSignInWithEmailLink) ?', isValidLink);
+        const storedEmail = localStorage.getItem('emailForSignIn');
+        console.log('📧 Email stocké :', storedEmail);
 
-        // Vérifier si on a un lien valide
-        if (!isSignInWithEmailLink(auth, window.location.href)) {
+        // Récupérer l'email stocké
+        let email = storedEmail;
+
+        // Vérification
+        if (!isValidLink) {
+            console.error('❌ Lien invalide ou expiré');
             showMessage('Lien de connexion invalide ou expiré.', 'error');
         } else if (!email) {
-            // Si l'email n'est pas en localStorage, on demande à l'utilisateur
-            showMessage('Aucun email trouvé. Veuillez recommencer.', 'error');
+            console.error('❌ Email manquant dans localStorage');
+            // Option : demander à l'utilisateur de saisir son email
+            // (vous pouvez ajouter un petit formulaire ici si nécessaire)
+            showMessage('Aucun email trouvé. Veuillez recommencer depuis la page de connexion.', 'error');
         } else {
-            // Finaliser la connexion
+            console.log('✅ Tentative de connexion avec email :', email);
             signInWithEmailLink(auth, email, window.location.href)
                 .then((result) => {
-                    // Succès : effacer l'email stocké
+                    console.log('✅ Connexion réussie !', result);
                     localStorage.removeItem('emailForSignIn');
-                    // Rediriger vers codesecretuser.html
-                    window.location.href = 'codesecretuser.html';
+                    
+                    // Redirection vers codesecretuser.html (dans le même dossier)
+                    console.log('➡️ Redirection vers codesecretuser.html');
+                    window.location.href = 'codesecretuser.html';  // chemin relatif
                 })
                 .catch((error) => {
-                    console.error('Erreur de connexion :', error);
+                    console.error('❌ Erreur lors de signInWithEmailLink :', error);
                     let message = 'Erreur lors de la connexion.';
                     if (error.code === 'auth/invalid-action-code') {
                         message = 'Lien expiré ou déjà utilisé.';
+                    } else if (error.code === 'auth/unauthorized-continue-uri') {
+                        message = 'Domaine non autorisé. Vérifiez Firebase Console.';
                     }
                     showMessage(message, 'error');
                 });
-            console.log('🔍 URL actuelle :', window.location.href);
-console.log('🔍 Lien valide ?', isSignInWithEmailLink(auth, window.location.href));
-console.log('🔍 Email localStorage :', localStorage.getItem('emailForSignIn'));
         }
     </script>
 </body>
